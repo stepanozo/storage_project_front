@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Nomenclature} from "../api/Nomenclature";
+import {Nomenclature} from "../model/Nomenclature";
 import {getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
 import NomenclatureTable from "../components/NomenclatureTable";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import EquipmentTable from "../components/EquipmentTable";
 
-export const EquipmentPage = ()=> {
-  const [nomenclatures, setNomenclatures] = useState<Nomenclature[]>([]);
+interface EquipmentPageProps {
+  nomenclatures: Nomenclature[];
+  setNomenclatures: (nomenclatures: Nomenclature[]) => void;
+}
 
-  useEffect(() => {
-    getAllNomenclatures()
-      .then((data) => setNomenclatures(data))
-  }, []);
+export const EquipmentPage: React.FC< EquipmentPageProps > = ({ nomenclatures, setNomenclatures}) => {
 
   return (
     <Row>

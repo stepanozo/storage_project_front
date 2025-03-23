@@ -4,21 +4,23 @@ import Modal from 'react-bootstrap/Modal';
 import {deleteEquipment} from "../../api/equipmentApi";
 
 
-export interface ModalDeleteProps {
+export interface ModalConfirmProps {
+  text: string;
+  textConfirm: string;
   show: boolean;
   id: number;
   confirmDelete: (id: number) => void;
   handleCloseModal: () => void;
 }
 
-const ModalDelete = (props: ModalDeleteProps) => {
+const ModalConfirm = (props: ModalConfirmProps) => {
   return (
     <>
       <Modal show={props.show} onHide={() => props.handleCloseModal()} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Подтвердить удаление</Modal.Title>
+          <Modal.Title>Подтверждение</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Вы уверены, что хотите удалить элемент?</Modal.Body>
+        <Modal.Body>{props.text}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() =>
             props.handleCloseModal()
@@ -31,7 +33,7 @@ const ModalDelete = (props: ModalDeleteProps) => {
               props.handleCloseModal();
             }
           }>
-            Да, удалить
+            {props.textConfirm}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -39,4 +41,4 @@ const ModalDelete = (props: ModalDeleteProps) => {
   );
 }
 
-export default ModalDelete;
+export default ModalConfirm;

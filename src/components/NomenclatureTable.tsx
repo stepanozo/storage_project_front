@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Nomenclature} from '../api/Nomenclature'
+import {Nomenclature} from '../model/Nomenclature'
 import Table from 'react-bootstrap/Table'
 import {Check, Pencil, Trash, X} from 'react-bootstrap-icons';
-import {Equipment} from "../api/Equipment";
+import {Equipment} from "../model/Equipment";
 import {
   addEquipment,
   addNomenclature,
@@ -12,7 +12,7 @@ import {
   getAllEquipment,
   getAllNomenclatures
 } from "../api/equipmentApi";
-import ModalDelete from "./modal/modalDelete";
+import ModalConfirm from "./modal/modalConfirm";
 import {Button, Col, Form, Row} from "react-bootstrap";
 
 interface NomenclatureTableProps {
@@ -20,6 +20,8 @@ interface NomenclatureTableProps {
   setNomenclatures: (nomenclatures: Nomenclature[]) => void;
 }
 
+
+//todo ПРОВЕРИТЬ, ГДЕ ОСТАЛОСЬ setNomenclaturesList и заменить на setNomenclatures
 const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, setNomenclatures}) => {
 
   const [nomenclatureList, setNomenclatureList] = useState<Nomenclature[]>(nomenclatures);
@@ -61,11 +63,10 @@ const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, 
     setSelectedItemToDeleteId(id)
   };
 
-  //todo расписать этот треш так, чтобы был запрет на удаление номенклатуры, которая есть на складе
   const confirmDelete = (id: number) => {
     setTitleChanged(false);
-    deleteNomenclature(id).then(() => setNomenclatureList((prev) =>
-      prev.filter(nomenclature => nomenclature.id !== id)
+    deleteNomenclature(id).then(() => setNomenclatures(
+      nomenclatures.filter(nomenclature => nomenclature.id !== id)
     ))
     setSelectedItemId(-1);
     setSelectedItemToDeleteId(id);
@@ -111,7 +112,9 @@ const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, 
   }
   return (
     <>
-      <ModalDelete
+      <ModalConfirm
+        text={'Вы уверены, что хотите удалить элемент?'}
+        textConfirm={'Да, удалить'}
         show={showModal}
         id={selectedItemToDeleteId || 0}
         confirmDelete={confirmDelete}

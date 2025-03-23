@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Nomenclature} from '../api/Nomenclature'
+import {Nomenclature} from '../model/Nomenclature'
 import Table from 'react-bootstrap/Table'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {Equipment} from "../api/Equipment";
+import {Equipment} from "../model/Equipment";
 import {Check, Pencil, Trash, X} from "react-bootstrap-icons";
 import {addEquipment, changeEquipmentCount, deleteEquipment, getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
-import ModalDelete from "./modal/modalDelete";
-import {ModalDeleteProps} from "./modal/modalDelete";
+import ModalConfirm from "./modal/modalConfirm";
+import {ModalConfirmProps} from "./modal/modalConfirm";
 import NomenclatureTable from "./NomenclatureTable";
 
 const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclatures }) => {
@@ -22,6 +22,7 @@ const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclat
   const [nomenclatureList, setNomenclatureList] = useState<Nomenclature[]>(nomenclatures);
 
   useEffect(() => {
+    console.log('ТОКЕН РАВЕН ' + localStorage.getItem('token'))
     getAllEquipment()
       .then((data) => setEquipment(data.sort((a,b) => a.id - b.id)))
   }, []);
@@ -105,7 +106,9 @@ const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclat
   }
   return (
     <>
-    <ModalDelete
+    <ModalConfirm
+      text={'Вы уверены, что хотите удалить элемент?'}
+      textConfirm={'Да, удалить'}
       show={showModal}
       id={selectedItemToDeleteId || 0}
       confirmDelete={confirmDelete}
