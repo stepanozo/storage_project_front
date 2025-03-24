@@ -27,6 +27,7 @@ export const createRequest = (newRequestDTO: NewRequestDTO): Promise<any> =>
   fetch(`${baseUrl}/api/request/create_request`, {
     method: "POST",
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(newRequestDTO)

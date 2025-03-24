@@ -11,14 +11,8 @@ import {getAllNomenclatures} from "./api/equipmentApi";
 import {LoginPage} from "./view/LoginPage";
 
 function App() {
-
-  const [nomenclatures, setNomenclatures] = useState<Nomenclature[]>([]);
   const location = useLocation();
 
-  useEffect(() => {
-    getAllNomenclatures()
-      .then((data) => setNomenclatures(data))
-  }, []);
 
   return (
     <>
@@ -27,13 +21,8 @@ function App() {
       }
       <Routes>
         <Route path="/" element = {<HomePage/>}/>
-        <Route path="/equipment" element = {<EquipmentPage
-          nomenclatures = {nomenclatures}
-          setNomenclatures = {setNomenclatures}
-        />}/>
-        <Route path="/request" element = {<RequestPage
-          nomenclatures = {nomenclatures}
-        />}/>
+        <Route path="/equipment" element = {<EquipmentPage/>}/>
+        <Route path="/request" element = {<RequestPage/>}/>
         <Route path="/login" element = {<LoginPage/>}/>
       </Routes>
 

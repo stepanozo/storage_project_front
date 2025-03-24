@@ -5,12 +5,13 @@ import NomenclatureTable from "../components/NomenclatureTable";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import EquipmentTable from "../components/EquipmentTable";
 
-interface EquipmentPageProps {
-  nomenclatures: Nomenclature[];
-  setNomenclatures: (nomenclatures: Nomenclature[]) => void;
-}
+export const EquipmentPage = () => {
 
-export const EquipmentPage: React.FC< EquipmentPageProps > = ({ nomenclatures, setNomenclatures}) => {
+  const [nomenclatures, setNomenclatures] = useState<Nomenclature[]>([]);
+  useEffect(() => {
+    getAllNomenclatures()
+      .then((data) => setNomenclatures(data))
+  }, []);
 
   return (
     <Row>

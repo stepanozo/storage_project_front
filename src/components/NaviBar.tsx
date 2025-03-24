@@ -10,12 +10,16 @@ export const NaviBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav variant="underline" className="me-auto">
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
-            <NavLink to="/equipment" className="nav-link">
-              ТМЦ
-            </NavLink>
+
+            {(localStorage.getItem("role") === 'admin' ||
+              localStorage.getItem("role") === 'storekeeper'
+              ) ?
+                <NavLink to="/equipment" className="nav-link">
+                ТМЦ
+                </NavLink>
+              : null
+            }
+
             <NavLink to="/request" className="nav-link">
               Заявки
             </NavLink>

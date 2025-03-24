@@ -9,14 +9,14 @@ import {getAllRequests} from "../api/requestApi";
 import {Request} from "../model/Request";
 
 
-interface RequestPageProps {
-  nomenclatures: Nomenclature[];
-}
-
-export const RequestPage: React.FC<RequestPageProps> = (props: RequestPageProps) => {
-
+export const RequestPage = () => {
+  const [nomenclatures, setNomenclatures] = useState<Nomenclature[]>([]);
   const [requests, setRequests] = useState<Request[]>([]);
 
+  useEffect(() => {
+    getAllNomenclatures()
+      .then((data) => setNomenclatures(data))
+  }, []);
   useEffect(() => {
     getAllRequests()
       .then((data) => setRequests(data))
@@ -26,7 +26,7 @@ export const RequestPage: React.FC<RequestPageProps> = (props: RequestPageProps)
     <RequestTable
       requests = {requests}
       setRequests={setRequests}
-      nomenclatures={props.nomenclatures}
+      nomenclatures={nomenclatures}
     />
   );
 }

@@ -3,7 +3,7 @@ export interface Request {
   equipmentNomenclatureName: string;
   status: string;
   count: number;
-  userFullName: number;
+  userFullName: string;
   registrationDateTime: Date;
   closureDateTime: Date;
 }

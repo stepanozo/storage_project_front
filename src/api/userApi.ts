@@ -14,8 +14,7 @@ export const doLogin = (loginDTO: LoginDTO): Promise<any> =>
     body: JSON.stringify(loginDTO)
   }).then(response => {
     if (response.status === 200) {
-      console.log('У нас было логин ДТО ' + loginDTO.login + ' ' + loginDTO.passwordHash)
-      return response.text()
+      return response.json()
     }
     else
       return response.text().then(data => {throw new Error(data) })

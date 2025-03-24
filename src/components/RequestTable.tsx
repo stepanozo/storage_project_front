@@ -24,7 +24,6 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
   const [requestDTOtoRegister, setRequestDTOtoRegister] = useState<NewRequestDTO>({
     nomenclatureId: -1,
     count: -1,
-    userId: -1
   })
 
   const inputStyle = {
@@ -78,7 +77,6 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
 
   const handleRegisterRequestClick = (requestDTOtoRegister: NewRequestDTO) => {
     if (requestDTOtoRegister.nomenclatureId > 0 &&
-      requestDTOtoRegister.userId > 0 &&
       requestDTOtoRegister.count > 0) {
       createRequest(requestDTOtoRegister).then(() => getAllRequests()
         .then((data) => setRequests(data.sort((a,b) => a.id - b.id)))
@@ -134,7 +132,7 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
               <td>{request.closureDateTime == null ? '-' : (String(request.closureDateTime)).replace('T', ' ').replaceAll('-','.')}</td>
               <td>
                 {
-                  request.status === 'Ожидает' ?
+                  request.status === 'Ожидает' && localStorage.getItem('fullName') === request.userFullName.toString() ?
                 <button style={{border: "none", background: "none"}}
                             onClick = {() => handleCancelClick(request.id)}>
                       <XCircle/>
@@ -175,7 +173,7 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
 
         <Col>
           <Button variant="primary" className= "me-3" onClick={() =>
-            handleRegisterRequestClick({...requestDTOtoRegister,  userId: 1})
+            handleRegisterRequestClick(requestDTOtoRegister)
           }> Зарегистрировать
           </Button>
         </Col>
