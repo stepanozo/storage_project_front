@@ -4,14 +4,20 @@ import Table from 'react-bootstrap/Table'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Equipment} from "../model/Equipment";
 import {Check, Pencil, Trash, X} from "react-bootstrap-icons";
-import {addEquipment, changeEquipmentCount, deleteEquipment, getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
+import {addEquipment, changeEquipmentCount, deleteEquipment, deleteNomenclature, getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
 import ModalConfirm from "./modal/modalConfirm";
 import {ModalConfirmProps} from "./modal/modalConfirm";
 import NomenclatureTable from "./NomenclatureTable";
 
-const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclatures }) => {
+interface EquipmentTableProps {
+  equipment: Equipment[];
+  setEquipment: (equipment: Equipment[]) => void;
+  nomenclatures: Nomenclature[];
+  refreshEquipment: () => void
+}
 
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
+const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment, nomenclatures, refreshEquipment }) => {
+
   const [tempEquipmentCount, setTempEquipmentCount] = useState<number>(0);
   const [newEquipmentCount, setNewEquipmentCount] = useState<number>(1);
   const [countChanged, setCountChanged] = useState<boolean>(false);
@@ -22,15 +28,8 @@ const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclat
   const [nomenclatureList, setNomenclatureList] = useState<Nomenclature[]>(nomenclatures);
 
   useEffect(() => {
-    console.log('ТОКЕН РАВЕН ' + localStorage.getItem('token'))
-    getAllEquipment()
-      .then((data) => setEquipment(data.sort((a,b) => a.id - b.id)))
-  }, []);
-
-  useEffect(() => {
     setNomenclatureList(nomenclatures);
   }, [nomenclatures]);
-
 
   const inputStyle = {
     border: 'black solid 1px',
@@ -61,18 +60,18 @@ const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclat
 
   const confirmDelete = (id: number) => {
     setCountChanged(false);
-    deleteEquipment(id).then(() => setEquipment((prev) =>
-      prev.filter(equipment => equipment.id !== id)
+    deleteEquipment(id).then(() => setEquipment(
+      equipment.filter(equipment => equipment.id !== id)
     ))
     setSelectedItemId(-1);
     setSelectedItemToDeleteId(id);
   };
 
+
+
   const handleRegisterEquipmentClick = (nomenclature_id: number, count: number) => {
     console.log("Добавляем ТМЦ")
-    addEquipment(nomenclature_id, count).then(() => getAllEquipment()
-        .then((data) => setEquipment(data.sort((a,b) => a.id - b.id)))
-      )
+    addEquipment(nomenclature_id, count).then(() => refreshEquipment())
   };
 
 
@@ -87,14 +86,8 @@ const EquipmentTable: React.FC<{ nomenclatures: Nomenclature[] }> = ({ nomenclat
 
   const handleConfirmChangeCountClick = (id: number, count: number) => {
     if (countChanged) {
-      changeEquipmentCount(id, count).then(() => {
-        setEquipment((prev) =>
-          prev.map((item) =>
-            item.id === id ? {...item, count: count} : item
-          )
-        )
-      })
-    }
+      changeEquipmentCount(id, count).then(() => refreshEquipment())
+      }
   }
 
   const handleError = (errorText: string) => {

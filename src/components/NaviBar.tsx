@@ -1,8 +1,17 @@
-import {Button, Nav, Navbar} from "react-bootstrap";
+import {Badge, Button, Nav, Navbar} from "react-bootstrap";
 import {Link, NavLink} from 'react-router-dom';
 import React from "react";
 
 export const NaviBar = () => {
+
+  const handleLogOut=  () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("login");
+    localStorage.removeItem("role");
+    localStorage.removeItem("fullName");
+  }
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -23,18 +32,37 @@ export const NaviBar = () => {
             <NavLink to="/request" className="nav-link">
               Заявки
             </NavLink>
+
+
           </Nav>
+
+
           <Nav className="ms-auto">
-            <Link to = "/login">
-              <Button variant="primary" className="me-2">
-                Войти
-              </Button>
-            </Link>
-            <Button variant="primary" className="me-2">
-              <NavLink to="/register">
-              </NavLink>
-              Зарегистрироваться
-            </Button>
+            {localStorage.getItem("login") !== null ?
+              <>
+                <h4>
+                  <Badge bg="secondary" className="me-2">{localStorage.getItem("login")}</Badge>
+                </h4>
+                <Link to = "/login">
+                  <Button variant="primary" className="me-2" onClick={() => handleLogOut()}>
+                    Выйти
+                  </Button>
+                </Link>
+              </>
+            :
+              <>
+                <Link to = "/login">
+                  <Button variant="primary" className="me-2">
+                  Войти
+                </Button>
+                </Link>
+                <Link to = "/register">
+                  <Button variant="primary" className="me-2">
+                    Регистрация
+                  </Button>
+                </Link>
+              </>
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>
