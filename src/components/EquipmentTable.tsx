@@ -104,7 +104,7 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment,
       textConfirm={'Да, удалить'}
       show={showModal}
       id={selectedItemToDeleteId || 0}
-      confirmDelete={confirmDelete}
+      confirmFunction={confirmDelete}
       handleCloseModal={handleCloseModal}
     />
           <div style={{minHeight: "300px",maxHeight: "300px", overflowY: "auto"}}>

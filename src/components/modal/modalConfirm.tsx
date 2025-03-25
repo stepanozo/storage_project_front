@@ -9,7 +9,7 @@ export interface ModalConfirmProps {
   textConfirm: string;
   show: boolean;
   id: number;
-  confirmDelete: (id: number) => void;
+  confirmFunction: (id: number) => void;
   handleCloseModal: () => void;
 }
 
@@ -29,7 +29,8 @@ const ModalConfirm = (props: ModalConfirmProps) => {
           </Button>
           <Button variant="primary" onClick={
             () => {
-              props.confirmDelete(props.id)
+              console.log('НАЖАЛ КНОПКУ')
+              props.confirmFunction(props.id)
               props.handleCloseModal();
             }
           }>

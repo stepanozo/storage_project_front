@@ -117,7 +117,7 @@ const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, 
         textConfirm={'Да, удалить'}
         show={showModal}
         id={selectedItemToDeleteId || 0}
-        confirmDelete={confirmDelete}
+        confirmFunction={confirmDelete}
         handleCloseModal={handleCloseModal}
       />
       <div style={{maxHeight: "300px", overflowY: "auto"}}>

@@ -6,9 +6,10 @@ import {Equipment} from "../model/Equipment";
 import ModalConfirm from "./modal/modalConfirm";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import { NewRequestDTO } from '../api/NewRequestDTO';
-import {cancelRequest, createRequest, getAllRequests} from "../api/requestApi";
+import {cancelRequest, confirmReceivingRequest, createRequest, getAllRequests} from "../api/requestApi";
 import {Request} from "../model/Request";
 import {changeEquipmentCount} from "../api/equipmentApi";
+import {text} from "node:stream/consumers";
 
 interface RequestTableProps {
   requests: Request[];
@@ -18,13 +19,16 @@ interface RequestTableProps {
 
 const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nomenclatures}) => {
 
+  const [textModal, setTextModal] = useState<string>('')
+  const [textConfirmModal, setTextConfirmModal] = useState<string>('')
   const [requestList, setRequestList] = useState<Request[]>(requests);
-  const [selectedItemToDeleteId, setSelectedItemToCancel] = useState<number>();
+  const [selectedItem, setSelectedItem] = useState<number>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [requestDTOtoRegister, setRequestDTOtoRegister] = useState<NewRequestDTO>({
     nomenclatureId: -1,
     count: -1,
   })
+  const [confirmFunctionModal, setConfirmFunctionModal] = useState<(id: number) => void>((id: number) => {})
 
   const inputStyle = {
     border: 'black solid 1px',
@@ -53,18 +57,23 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
   };
 
   const handleCancelClick = (id: number) => {
+    setTextModal('Вы уверены, что хотите отменить заявку?')
+    setTextConfirmModal('Да, отменить')
+    setSelectedItem(id)
+    setConfirmFunctionModal(() => confirmCancel)
     setShowModal(true)
-    setSelectedItemToCancel(id)
+  };
+
+  const handleConfirmReceivingClick = (id: number) => {
+    setTextModal('Вы подтверждаете получение товара?')
+    setTextConfirmModal('Да, подтвердить')
+    setSelectedItem(id)
+    setConfirmFunctionModal(() => confirmReceiving)
+    setShowModal(true)
   };
 
   //todo расписать этот треш так, чтобы был запрет на удаление , которая есть на складе
   const confirmCancel = (id: number) => {
-
-    //Это надо включить в том случае, если ты сотрудник
-    // cancelRequest(id).then(() => setRequests(
-    //   requests.filter(request => request.id !== id)
-    // ))
-
     cancelRequest(id).then(() =>
       setRequests(
         requests.map((item) =>
@@ -72,7 +81,19 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
         )
       )
     );
-    setSelectedItemToCancel(id);
+    setSelectedItem(id);
+  };
+
+  const confirmReceiving = (id: number) => {
+    console.log('вызвался confirmReceiving')
+    confirmReceivingRequest(id).then(() =>
+      setRequests(
+        requests.map((item) =>
+          item.id === id ? {...item, status: 'Получено'} : item
+        )
+      )
+    );
+    setSelectedItem(id);
   };
 
   const handleRegisterRequestClick = (requestDTOtoRegister: NewRequestDTO) => {
@@ -99,11 +120,11 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
   return (
     <>
       <ModalConfirm
-        text={'Вы уверены, что хотите отменить заявку?'}
-        textConfirm={'Да, отменить'}
+        text={textModal}
+        textConfirm={textConfirmModal}
         show={showModal}
-        id={selectedItemToDeleteId || 0}
-        confirmDelete={confirmCancel}
+        id={selectedItem || 0}
+        confirmFunction={confirmFunctionModal}
         handleCloseModal={handleCloseModal}
       />
       <div style={{minHeight: "350px", maxHeight: "350px", overflowY: "auto"}}>
@@ -137,7 +158,13 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
                             onClick = {() => handleCancelClick(request.id)}>
                       <XCircle/>
                 </button>
-                    : null
+                    :
+                    request.status === 'Выполнена' && localStorage.getItem('fullName') === request.userFullName.toString() ?
+                      <button style={{border: "none", background: "none"}}
+                              onClick = {() => handleConfirmReceivingClick(request.id)}>
+                        <Check/>
+                      </button>
+                      : null
                 }
               </td>
             </tr>

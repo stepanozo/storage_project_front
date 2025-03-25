@@ -53,3 +53,18 @@ export const cancelRequest = (id: number): Promise<any> =>
         return response.text()
           .then(data => {throw new Error(data) })
     })
+
+export const confirmReceivingRequest = (id: number): Promise<any> =>
+  fetch(`${baseUrl}/api/request/confirm_receiving/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
+  })
+    .then(response => {
+      if(response.status === 200)
+        return response.text()
+      else
+        return response.text()
+          .then(data => {console.log('govno'); throw new Error(data) })
+    })
