@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Nomenclature} from '../model/Nomenclature'
 import Table from 'react-bootstrap/Table'
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import {Equipment} from "../model/Equipment";
 import {Check, Pencil, Trash, X} from "react-bootstrap-icons";
-import {addEquipment, changeEquipmentCount, deleteEquipment, deleteNomenclature, getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
+import {addEquipment, changeEquipmentCount, deleteEquipment} from "../api/equipmentApi";
 import ModalConfirm from "./modal/modalConfirm";
-import {ModalConfirmProps} from "./modal/modalConfirm";
-import NomenclatureTable from "./NomenclatureTable";
 
 interface EquipmentTableProps {
   equipment: Equipment[];
@@ -89,10 +87,6 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment,
       changeEquipmentCount(id, count).then(() => refreshEquipment())
       }
   }
-
-  const handleError = (errorText: string) => {
-    //todo сделать вывод сообщения об ошибке
-  };
 
   if(!equipment ||equipment.length ===0 ){
     return <div>Нет данных для отображения</div>
@@ -176,13 +170,10 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment,
           >
             <option>Выберите номенклатуру</option>
             {nomenclatureList.map((nomenclature) =>
-              //<tr key={nomenclature.id}>
                 <option key={nomenclature.id} value= {nomenclature.id} >
                   {nomenclature.name}
                 </option>
-              //</tr>
             )}
-
           </Form.Select>
         </Col>
         <Col>
@@ -201,7 +192,6 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment,
           </Button>
         </Col>
       </Row>
-
     </>
   );
 };

@@ -2,18 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Nomenclature} from '../model/Nomenclature'
 import Table from 'react-bootstrap/Table'
 import {Check, Pencil, Trash, X} from 'react-bootstrap-icons';
-import {Equipment} from "../model/Equipment";
 import {
-  addEquipment,
   addNomenclature,
-  changeEquipmentCount, changeNomenclatureTitle,
-  deleteEquipment,
+  changeNomenclatureTitle,
   deleteNomenclature,
-  getAllEquipment,
   getAllNomenclatures
 } from "../api/equipmentApi";
 import ModalConfirm from "./modal/modalConfirm";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 
 interface NomenclatureTableProps {
   nomenclatures: Nomenclature[];
@@ -100,13 +96,6 @@ const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, 
       })
     }
   }
-
-  const handleError = (errorText: string) => {
-    //todo сделать вывод сообщения об ошибке
-  };
-
-
-
   if(!nomenclatureList ||nomenclatureList.length ===0 ){
     return <div>Нет данных для отображения</div>
   }

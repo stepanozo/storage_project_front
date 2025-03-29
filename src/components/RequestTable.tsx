@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Nomenclature} from '../model/Nomenclature'
 import Table from 'react-bootstrap/Table'
-import {Check, Pencil, Trash, X, XCircle} from 'react-bootstrap-icons';
-import {Equipment} from "../model/Equipment";
+import {Check, XCircle} from 'react-bootstrap-icons';
 import ModalConfirm from "./modal/modalConfirm";
 import {Button, Col, Form, Row} from "react-bootstrap";
-import { NewRequestDTO } from '../api/NewRequestDTO';
+import { NewRequestDTO } from '../api/dto/NewRequestDTO';
 import {cancelRequest, confirmReceivingRequest, createRequest, getAllRequests} from "../api/requestApi";
 import {Request} from "../model/Request";
-import {changeEquipmentCount} from "../api/equipmentApi";
-import {text} from "node:stream/consumers";
 
 interface RequestTableProps {
   requests: Request[];
@@ -109,11 +106,6 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
   const handleCloseModal = () => {
     setShowModal(false)
   };
-
-  const handleError = (errorText: string) => {
-    //todo сделать вывод сообщения об ошибке
-  };
-
   if(!requestList || requestList.length ===0 ){
     return <div>Нет данных для отображения</div>
   }

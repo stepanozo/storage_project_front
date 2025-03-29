@@ -1,7 +1,4 @@
-import {Nomenclature} from "../model/Nomenclature";
-import {Equipment} from "../model/Equipment";
-import {NewRequestDTO} from "./NewRequestDTO";
-import {LoginDTO} from "./LoginDTO";
+import {LoginDTO} from "./dto/LoginDTO";
 
 const baseUrl = 'http://localhost:8080';
 

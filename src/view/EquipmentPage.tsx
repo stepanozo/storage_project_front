@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Nomenclature} from "../model/Nomenclature";
 import {getAllEquipment, getAllNomenclatures} from "../api/equipmentApi";
 import NomenclatureTable from "../components/NomenclatureTable";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import EquipmentTable from "../components/EquipmentTable";
 import {Equipment} from "../model/Equipment";
 

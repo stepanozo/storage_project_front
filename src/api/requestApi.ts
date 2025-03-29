@@ -1,12 +1,7 @@
-import {Nomenclature} from "../model/Nomenclature";
-import {NewRequestDTO} from "./NewRequestDTO";
+import {NewRequestDTO} from "./dto/NewRequestDTO";
 import {Request} from "../model/Request";
 
 const baseUrl = 'http://localhost:8080';
-
-interface newRequestDto {
-
-}
 
 export const getAllRequests = (): Promise<Request[]> =>
   fetch(`${baseUrl}/api/request/list`, {

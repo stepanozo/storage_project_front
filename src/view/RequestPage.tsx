@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Nomenclature} from "../model/Nomenclature";
 import {getAllNomenclatures} from "../api/equipmentApi";
-import {Col, Row} from "react-bootstrap";
-import EquipmentTable from "../components/EquipmentTable";
-import NomenclatureTable from "../components/NomenclatureTable";
 import RequestTable from "../components/RequestTable";
 import {getAllRequests} from "../api/requestApi";
 import {Request} from "../model/Request";

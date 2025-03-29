@@ -3,9 +3,9 @@ import Form from 'react-bootstrap/Form';
 import {Button} from "react-bootstrap";
 import React, {useState} from "react";
 import {doLogin} from "../api/userApi";
-import {LoginDTO} from "../api/LoginDTO";
+import {LoginDTO} from "../api/dto/LoginDTO";
 import {useNavigate} from "react-router-dom";
-import UserAuthDTO from "../api/UserAuthDTO";
+import UserAuthDTO from "../api/dto/UserAuthDTO";
 
 export const LoginForm =() => {
 
