@@ -102,6 +102,17 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
     }
   };
 
+  const formatDateTime = (date: any) => {
+    if (!date) return "-";
+
+    return date.toLocaleString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).replace(',', '');
+  };
 
   const handleCloseModal = () => {
     setShowModal(false)
@@ -119,7 +130,7 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
         confirmFunction={confirmFunctionModal}
         handleCloseModal={handleCloseModal}
       />
-      <div style={{minHeight: "350px", maxHeight: "350px", overflowY: "auto"}}>
+      <div style={{minHeight: "350px", maxHeight: "600px", overflowY: "auto"}}>
         <Table striped="columns">
           <thead>
           <tr>
@@ -141,8 +152,8 @@ const RequestTable: React.FC<RequestTableProps > = ({ requests, setRequests, nom
               <td>{request.status}</td>
               <td>{request.count}</td>
               <td>{request.userFullName}</td>
-              <td>{(String(request.registrationDateTime)).replace('T', ' ').replaceAll('-','.')}</td>
-              <td>{request.closureDateTime == null ? '-' : (String(request.closureDateTime)).replace('T', ' ').replaceAll('-','.')}</td>
+              <td>{formatDateTime(request.registrationDateTime)}</td>
+              <td>{formatDateTime(request.closureDateTime)}</td>
               <td>
                 {
                   request.status === 'Ожидает' && localStorage.getItem('fullName') === request.userFullName.toString() ?

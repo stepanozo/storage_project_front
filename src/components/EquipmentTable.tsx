@@ -101,7 +101,7 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({equipment, setEquipment,
       confirmFunction={confirmDelete}
       handleCloseModal={handleCloseModal}
     />
-          <div style={{minHeight: "300px",maxHeight: "300px", overflowY: "auto"}}>
+          <div style={{minHeight: "300px",maxHeight: "600px", overflowY: "auto"}}>
             <Table striped="columns">
               <thead>
               <tr>

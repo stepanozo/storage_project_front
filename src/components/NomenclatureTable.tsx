@@ -109,7 +109,7 @@ const NomenclatureTable: React.FC< NomenclatureTableProps > = ({ nomenclatures, 
         confirmFunction={confirmDelete}
         handleCloseModal={handleCloseModal}
       />
-      <div style={{maxHeight: "300px", overflowY: "auto"}}>
+      <div style={{maxHeight: "600px", overflowY: "auto"}}>
         <Table striped="columns">
           <thead>
           <tr>

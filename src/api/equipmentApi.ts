@@ -1,5 +1,6 @@
 import {Nomenclature} from "../model/Nomenclature";
 import {Equipment} from "../model/Equipment";
+import EquipmentLogDTO from "./dto/EquipmentLog";
 
 const baseUrl = 'http://localhost:8080';
 
@@ -138,4 +139,21 @@ export const addNomenclature = (title: string): Promise<any> =>
         .then(data => {throw new Error(data) })
   })
 
-
+export const getAllEquipmentLogs = (): Promise<EquipmentLogDTO[]> =>
+    fetch(`${baseUrl}/api/equipment/logs`, {
+        method: "GET",
+        headers: {
+            Authorization: `${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json() as Promise<EquipmentLogDTO[]>;
+            } else if (response.status === 204) {
+                return [];
+            } else {
+                return response.text()
+                    .then(data => { throw new Error(data || 'Failed to fetch equipment logs') });
+            }
+        });
