@@ -9,6 +9,7 @@ import {NaviBar} from "./components/NaviBar";
 import {Nomenclature} from "./model/Nomenclature";
 import {getAllNomenclatures} from "./api/equipmentApi";
 import {LoginPage} from "./view/LoginPage";
+import {StatusLogsPage} from "./view/StatusLogsPage";
 
 function App() {
   const location = useLocation();
@@ -20,10 +21,11 @@ function App() {
       <NaviBar></NaviBar> : null
       }
       <Routes>
-        <Route path="/" element = {<HomePage/>}/>
-        <Route path="/equipment" element = {<EquipmentPage/>}/>
-        <Route path="/request" element = {<RequestPage/>}/>
-        <Route path="/login" element = {<LoginPage/>}/>
+            <Route path="/" element = {<HomePage/>}/>
+            <Route path="/equipment" element = {<EquipmentPage/>}/>
+            <Route path="/request" element = {<RequestPage/>}/>
+            <Route path="/login" element = {<LoginPage/>}/>
+            <Route path="/status_log" element = {<StatusLogsPage/>}/>
       </Routes>
 
 

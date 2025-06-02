@@ -33,6 +33,13 @@ export const NaviBar = () => {
               Заявки
             </NavLink>
 
+            {(localStorage.getItem("role") === 'admin') ?
+                <NavLink to="/status_log" className="nav-link">
+                  Лог
+                </NavLink>
+                : null
+            }
+
 
           </Nav>
 
