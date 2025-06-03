@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {NaviBar} from "./components/NaviBar";
 import {LoginPage} from "./view/LoginPage";
 import {LogPage} from "./view/LogPage";
+import {StatisticsPage} from "./view/StatisticsPage";
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
             <Route path="/request" element = {<RequestPage/>}/>
             <Route path="/login" element = {<LoginPage/>}/>
             <Route path="/status_log" element = {<LogPage/>}/>
+            <Route path="/statistics" element = {<StatisticsPage/>}/>
       </Routes>
 
 

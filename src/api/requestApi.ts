@@ -1,5 +1,6 @@
 import {NewRequestDTO} from "./dto/NewRequestDTO";
 import {Request} from "../model/Request";
+import {Statistics} from "./dto/Statistics";
 
 const baseUrl = 'http://localhost:8080';
 
@@ -63,3 +64,24 @@ export const confirmReceivingRequest = (id: number): Promise<any> =>
         return response.text()
           .then(data => {console.log('govno'); throw new Error(data) })
     })
+
+export const getEquipmentStatistics = (from: Date, to: Date): Promise<Statistics[]> => {
+    const formatDate = (date: Date) => {
+        return date.toISOString().replace(/\.\d{3}Z$/, '');
+    };
+
+    return fetch(`${baseUrl}/api/request/statistics?fromDate=${encodeURIComponent(formatDate(from))}&toDate=${encodeURIComponent(formatDate(to))}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(async response => {
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || `HTTP error! status: ${response.status}`);
+            }
+            return response.json() as Promise<Statistics[]>;
+        });
+};

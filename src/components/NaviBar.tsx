@@ -40,6 +40,13 @@ export const NaviBar = () => {
                 : null
             }
 
+            {(localStorage.getItem("role") === 'admin') ?
+                <NavLink to="/statistics" className="nav-link">
+                  Статистика
+                </NavLink>
+                : null
+            }
+
 
           </Nav>
 
